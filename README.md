@@ -78,5 +78,5 @@ This repository is a portfolio presentation. No proprietary workflows, source co
 ---
 [Architecture Deep-Dive](ARCHITECTURE.md) · [Case Study](CASE-STUDY.md)
 
-**Built by MB Sabbir — AI Automation Engineer**  
+**Built by Sayad — AI Automation Engineer**  
 *Production-grade automation, not templates*
