@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="assets/banner.svg" width="100%" alt="🏥 Longevity/Hormone Clinic — Medical Document Automation System — banner"/>
+</div>
+
+
 # 🏥 Longevity/Hormone Clinic — Medical Document Automation System
 
 ![Status: Delivered](https://img.shields.io/badge/Status-Delivered-B19CD9?style=for-the-badge)
