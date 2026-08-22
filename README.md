@@ -98,7 +98,7 @@ flowchart TD
 2. **Dual OCR Processing:** AWS Textract and pdfplumber extract text in parallel
 3. **AI Understanding:** Claude (AWS Bedrock) interprets medical context
 4. **Confidence Scoring:** Each extraction assigned confidence score
-5. **Intelligent Routing:** High-confidence → auto, low-confidence → manual review
+5. **Intelligent Routing:** High-confidence â†’ auto, low-confidence â†’ manual review
 6. **Clinician Sign-off:** Mandatory provider approval for all outputs
 7. **Document Generation:** Structured medical reports created automatically
 8. **Quality Audit:** Full audit trail for medical compliance
@@ -131,33 +131,33 @@ flowchart TD
 ### BEFORE (Manual Processing - High Risk)
 ```
 [Medical PDF Received] 
-    ↓ (manual queue)
+    â†“ (manual queue)
 [Manual OCR/Transcription] 
-    ↓ (human error risk)
+    â†“ (human error risk)
 [Manual Data Entry] 
-    ↓ (inconsistent quality)
+    â†“ (inconsistent quality)
 [Manual Review Process] 
-    ↓ (ad-hoc checks)
+    â†“ (ad-hoc checks)
 [Patient Report Generation] 
-    ↓
-= **Slow, error-prone, inconsistent quality** ❌
+    â†“
+= **Slow, error-prone, inconsistent quality** âŒ
 ```
 
 ### AFTER (Automated Pipeline - Safe)
 ```
 [Medical PDF Received] 
-    ↓ (automated ingestion)
+    â†“ (automated ingestion)
 [Dual OCR Processing] 
-    ↓ (parallel engines)
+    â†“ (parallel engines)
 [AI Understanding] 
-    ↓ (Claude medical context)
+    â†“ (Claude medical context)
 [Confidence Gating] 
-    ↓ (intelligent routing)
+    â†“ (intelligent routing)
 [Clinician Sign-off] 
-    ↓ (mandatory approval)
+    â†“ (mandatory approval)
 [Automated Generation] 
-    ↓
-= **Fast, accurate, consistent quality with safety gates** ✅
+    â†“
+= **Fast, accurate, consistent quality with safety gates** âœ…
 ```
 
 **The difference:** Automated processing with mandatory human oversight for medical accuracy.
@@ -271,14 +271,14 @@ A: Yes, Celery + Redis async queue handles high-volume processing efficiently.
 
 **K MD SAYAD RAHMAN** - Sayad.dev | AI Automation
 
-**📧 Work Email:** khandokarsayad@gmail.com  
-**📧 Personal Email:** mdsadrhoman123@gmail.com  
-**💼 LinkedIn:** https://linkedin.com/in/khandokarsabbir  
-**🐙 GitHub:** https://github.com/mdsadrhoman123-stack
+**ðŸ“§ Work Email:** khandokarsayad@gmail.com  
+**ðŸ“§ Personal Email:** mdsadrhoman123@gmail.com  
+**ðŸ’¼ LinkedIn:** https://linkedin.com/in/khandokarsabbir  
+**ðŸ™ GitHub:** https://github.com/mdsadrhoman123-stack
 
-**🚀 Open to Work - Accepting New Automation Projects**
+**ðŸš€ Open to Work - Accepting New Automation Projects**
 
-**📩 Email me with your automation challenge - I'll tell you exactly 
+**ðŸ“© Email me with your automation challenge - I'll tell you exactly 
 which part I'd automate first, and which part I wouldn't.**
 
 ---
@@ -296,7 +296,7 @@ which part I'd automate first, and which part I wouldn't.**
 
 **Built by K MD SAYAD RAHMAN (Sayad.dev | AI Automation)**
 
-**📧 Contact:** khandokarsayad@gmail.com | mdsadrhoman123@gmail.com
+**ðŸ“§ Contact:** khandokarsayad@gmail.com | mdsadrhoman123@gmail.com
 
 Copyright (c) 2024 K MD SAYAD RAHMAN. All rights reserved. Portfolio use only.
 
