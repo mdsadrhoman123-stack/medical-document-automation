@@ -1,12 +1,5 @@
 # Healthcare Clinics: Automate Document Processing Without Risk
 
-![Status](https://img.shields.io/badge/status-Delivered_to_Client-success) 
-![License](https://img.shields.io/badge/license-Portfolio_Use_Only-red) 
-![Industry](https://img.shields.io/badge/Industry-Healthcare-blue)
-![n8n Automation](https://img.shields.io/badge/n8n-Automation_EA4B71)
-![Safety First](https://img.shields.io/badge/Safety-Human_in_the_Loop-purple)
-![Validate](https://img.shields.io/badge/CI-Validating-brightgreen)
-
 **Client:** Longevity/Hormone Clinic | **Industry:** Healthcare | **Delivered by:** K MD SAYAD RAHMAN (Sayad.dev | AI Automation)
 
 <!-- Professional Banner -->
@@ -14,40 +7,6 @@
 
 <!-- Interactive Architecture Diagram -->
 [View Interactive Architecture Diagram](https://raw.githubusercontent.com/mdsadrhoman123-stack/medical-document-automation/main/assets/diagrams/healthcare-interactive.html)
-
----
-
-## Automation Portfolio by K MD SAYAD RAHMAN
-
-Explore my AI automation systems across different industries
-
-### Real Estate AI Automation
-[distressed-property-detection](https://github.com/mdsadrhoman123-stack/distressed-property-detection) - Property deal detection
-
-### M&A Deal-Flow Automation
-[edugrow-ma-platform](https://github.com/mdsadrhoman123-stack/edugrow-ma-platform) - M&A advisory systems
-
-### Solar CRM Automation
-[irish-solar-crm](https://github.com/mdsadrhoman123-stack/irish-solar-crm) - Field service business systems
-
-### E-commerce Review Automation
-[review-outreach-pipeline](https://github.com/mdsadrhoman123-stack/review-outreach-pipeline) - Customer review generation
-
-### Enterprise Intake Automation
-[flowdesk](https://github.com/mdsadrhoman123-stack/flowdesk) - Enterprise intake systems
-
-### Payment Reconciliation Automation
-[paybridge](https://github.com/mdsadrhoman123-stack/paybridge) - Finance automation
-
-### Review Management Automation
-[reviewshield-ai](https://github.com/mdsadrhoman123-stack/reviewshield-ai) - Reputation management
-
-### Executive Report Automation
-[-impact-report-dashboard](https://github.com/mdsadrhoman123-stack/-impact-report-dashboard) - Executive reporting
-
----
-**Contact:** khandokarsayad@gmail.com | mdsadrhoman123@gmail.com  
-**LinkedIn:** [linkedin.com/in/khandokarsabbir](https://linkedin.com/in/khandokarsabbir)
 
 ---
 
@@ -138,7 +97,7 @@ flowchart TD
 2. **Dual OCR Processing:** AWS Textract and pdfplumber extract text in parallel
 3. **AI Understanding:** Claude (AWS Bedrock) interprets medical context
 4. **Confidence Scoring:** Each extraction assigned confidence score
-5. **Intelligent Routing:** High-confidence â†’ auto, low-confidence â†’ manual review
+5. **Intelligent Routing:** High-confidence → auto, low-confidence → manual review
 6. **Clinician Sign-off:** Mandatory provider approval for all outputs
 7. **Document Generation:** Structured medical reports created automatically
 8. **Quality Audit:** Full audit trail for medical compliance
@@ -171,33 +130,33 @@ flowchart TD
 ### BEFORE (Manual Processing - High Risk)
 ```
 [Medical PDF Received] 
-    â†“ (manual queue)
+    ↓ (manual queue)
 [Manual OCR/Transcription] 
-    â†“ (human error risk)
+    ↓ (human error risk)
 [Manual Data Entry] 
-    â†“ (inconsistent quality)
+    ↓ (inconsistent quality)
 [Manual Review Process] 
-    â†“ (ad-hoc checks)
+    ↓ (ad-hoc checks)
 [Patient Report Generation] 
-    â†“
-= **Slow, error-prone, inconsistent quality** âŒ
+    ↓
+= **Slow, error-prone, inconsistent quality** ❌
 ```
 
 ### AFTER (Automated Pipeline - Safe)
 ```
 [Medical PDF Received] 
-    â†“ (automated ingestion)
+    ↓ (automated ingestion)
 [Dual OCR Processing] 
-    â†“ (parallel engines)
+    ↓ (parallel engines)
 [AI Understanding] 
-    â†“ (Claude medical context)
+    ↓ (Claude medical context)
 [Confidence Gating] 
-    â†“ (intelligent routing)
+    ↓ (intelligent routing)
 [Clinician Sign-off] 
-    â†“ (mandatory approval)
+    ↓ (mandatory approval)
 [Automated Generation] 
-    â†“
-= **Fast, accurate, consistent quality with safety gates** âœ…
+    ↓
+= **Fast, accurate, consistent quality with safety gates** ✅
 ```
 
 **The difference:** Automated processing with mandatory human oversight for medical accuracy.
