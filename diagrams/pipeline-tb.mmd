@@ -1,0 +1,20 @@
+flowchart TB
+    in(["A document arrives"])
+    read["Read and structured"]
+    sure{"Is anything uncertain?"}
+    flag["Uncertain → flagged for a human"]
+    sign[/"A clinician signs off"/]
+    out["Released to the patient"]
+
+    in --> read
+    read --> sure
+    sure -.-> flag
+    sure --> sign
+    flag --> sign
+    sign --> out
+
+    classDef default fill:#F8F7F3,stroke:#12151B,stroke-width:1px,color:#12151B;
+    classDef ok fill:#2F6B52,stroke:#12151B,stroke-width:1px,color:#F5F4EF;
+    classDef bad fill:#FEE2E2,stroke:#DC2626,stroke-width:1.5px,color:#7F1D1D;
+    class out ok;
+    class flag bad;
