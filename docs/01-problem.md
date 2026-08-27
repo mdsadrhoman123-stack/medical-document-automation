@@ -1,6 +1,6 @@
 # 01 · The problem
 
-**Medical Document Automation** — Longevity / hormone-optimization clinic (US)
+**Medical Document Automation** — the problem, as Longevity / hormone-optimization clinics (US) describe it
 
 ---
 
@@ -20,4 +20,4 @@ A 16-stage pipeline extracts text from PDFs and scans, structures it with an AI 
 
 ---
 
-[← README](../README.md) · [02 · The client journey →](02-journey.md)
+[← README](../README.md) · [02 · The journey →](02-journey.md)

@@ -29,6 +29,12 @@ header.hero{background:var(--ink);color:#F5F4EF;padding:76px 0 68px;
 header.hero h1{font-size:clamp(38px,6vw,64px);line-height:1.03;margin:0 0 20px}
 header.hero p.promise{font-size:19px;line-height:1.55;color:#C6CFDB;
   max-width:60ch;margin:0 0 30px}
+/* The demo is a single file — someone may well open it with no README in
+   sight, so the provenance has to travel with it. */
+header.hero p.prov{font-size:14px;line-height:1.62;color:#8A94A3;
+  max-width:66ch;margin:24px 0 0;border-left:2px solid #2E3542;
+  padding-left:14px}
+header.hero p.prov b{color:#C6CFDB}
 .meta{display:flex;flex-wrap:wrap;gap:10px}
 .pill{font-size:12px;letter-spacing:.4px;padding:6px 12px;border-radius:999px;
   border:1px solid #2E3542;color:#A9B3C1}
@@ -135,10 +141,15 @@ a{color:var(--green)}
     <h1>Medical Document Automation</h1>
     <p class="promise">Documents are read, structured and drafted automatically — and nothing reaches a patient without a clinician signing off.</p>
     <div class="meta">
-      <span class="pill ok">delivered to client</span>
+      <span class="pill ok">running in my own environment</span>
       <span class="pill">Healthcare</span>
-      <span class="pill">Built for Longevity / hormone-optimization clinic (US)</span>
+      <span class="pill">For Longevity / hormone-optimization clinics (US)</span>
+      <span class="pill">Ready to deploy</span>
     </div>
+    <p class="prov">Built from a real brief — businesses in this sector post
+    this problem publicly, in their own words, and I built a system for the
+    problem exactly as stated. It is production-grade and runs on my own infrastructure.
+    <b>It has not been sold or deployed into a customer's business: it is available, not delivered.</b></p>
   </div>
 </header>
 
@@ -219,7 +230,7 @@ a{color:var(--green)}
 </footer>
 
 <script>
-var DATA = {"nodes": [{"id": "in", "label": "A document arrives", "kind": "trigger"}, {"id": "read", "label": "Read and structured", "kind": "step"}, {"id": "sure", "label": "Is anything uncertain?", "kind": "logic"}, {"id": "flag", "label": "Uncertain → flagged for a human", "kind": "fail"}, {"id": "sign", "label": "A clinician signs off", "kind": "human"}, {"id": "out", "label": "Released to the patient", "kind": "success"}], "edges": [{"a": "in", "b": "read"}, {"a": "read", "b": "sure"}, {"a": "sure", "b": "flag"}, {"a": "sure", "b": "sign"}, {"a": "flag", "b": "sign"}, {"a": "sign", "b": "out"}], "fails": [{"what": "Extraction confidence is low", "detect": "Confidence gate", "does": "Flagged and routed to a human rather than passed on", "who": "Provider sees it flagged"}, {"what": "Scan is unreadable", "detect": "Extraction returns nothing usable", "does": "Held for manual handling, no partial output generated", "who": "Alert with the document reference"}, {"what": "AI provider call fails", "detect": "API error", "does": "Retried; the document stays queued rather than skipped", "who": "Alert if retries exhaust"}, {"what": "Worker dies mid-document", "detect": "Async queue", "does": "Task is retried from its record, not lost", "who": "Nobody if it recovers"}, {"what": "Output looks wrong to the clinician", "detect": "Sign-off gate", "does": "Rejected — nothing reaches the patient", "who": "The clinician decides"}, {"what": "Anything unanticipated", "detect": "Error handling on every stage", "does": "Halt before release, keep the record", "who": "Alert with the document reference"}], "journey": [{"h": "A document arrives", "b": "A PDF or a scan enters the pipeline. No one retypes anything."}, {"h": "Text is pulled out", "b": "Two extraction paths, because a clean PDF and a photographed scan are not the same problem."}, {"h": "Content is structured", "b": "The extracted text is organised into the fields the clinic actually uses."}, {"h": "Uncertainty is marked", "b": "A confidence gate separates what the system is sure about from what it is not. This is the whole design."}, {"h": "A clinician signs off", "b": "Mandatory. The system prepares; a person releases."}, {"h": "Then the patient sees it", "b": "And the record of who signed off is kept."}], "name": "Medical Document Automation", "eyebrow": "16-stage document pipeline", "promise": "Documents are read, structured and drafted automatically — and nothing reaches a patient without a clinician signing off.", "client": "Longevity / hormone-optimization clinic (US)", "status": "delivered to client", "metrics": [["Pipeline stages", "16"], ["Mandatory sign-off gates", "1"], ["Unreviewed patient outputs", "0"]]};
+var DATA = {"nodes": [{"id": "in", "label": "A document arrives", "kind": "trigger"}, {"id": "read", "label": "Read and structured", "kind": "step"}, {"id": "sure", "label": "Is anything uncertain?", "kind": "logic"}, {"id": "flag", "label": "Uncertain → flagged for a human", "kind": "fail"}, {"id": "sign", "label": "A clinician signs off", "kind": "human"}, {"id": "out", "label": "Released to the patient", "kind": "success"}], "edges": [{"a": "in", "b": "read"}, {"a": "read", "b": "sure"}, {"a": "sure", "b": "flag"}, {"a": "sure", "b": "sign"}, {"a": "flag", "b": "sign"}, {"a": "sign", "b": "out"}], "fails": [{"what": "Extraction confidence is low", "detect": "Confidence gate", "does": "Flagged and routed to a human rather than passed on", "who": "Provider sees it flagged"}, {"what": "Scan is unreadable", "detect": "Extraction returns nothing usable", "does": "Held for manual handling, no partial output generated", "who": "Alert with the document reference"}, {"what": "AI provider call fails", "detect": "API error", "does": "Retried; the document stays queued rather than skipped", "who": "Alert if retries exhaust"}, {"what": "Worker dies mid-document", "detect": "Async queue", "does": "Task is retried from its record, not lost", "who": "Nobody if it recovers"}, {"what": "Output looks wrong to the clinician", "detect": "Sign-off gate", "does": "Rejected — nothing reaches the patient", "who": "The clinician decides"}, {"what": "Anything unanticipated", "detect": "Error handling on every stage", "does": "Halt before release, keep the record", "who": "Alert with the document reference"}], "journey": [{"h": "A document arrives", "b": "A PDF or a scan enters the pipeline. No one retypes anything."}, {"h": "Text is pulled out", "b": "Two extraction paths, because a clean PDF and a photographed scan are not the same problem."}, {"h": "Content is structured", "b": "The extracted text is organised into the fields the clinic actually uses."}, {"h": "Uncertainty is marked", "b": "A confidence gate separates what the system is sure about from what it is not. This is the whole design."}, {"h": "A clinician signs off", "b": "Mandatory. The system prepares; a person releases."}, {"h": "Then the patient sees it", "b": "And the record of who signed off is kept."}], "name": "Medical Document Automation", "eyebrow": "16-stage document pipeline", "promise": "Documents are read, structured and drafted automatically — and nothing reaches a patient without a clinician signing off.", "audience": "Longevity / hormone-optimization clinics (US)", "status": "running in my own environment", "metrics": [["Pipeline stages", "16"], ["Mandatory sign-off gates", "1"], ["Unreviewed patient outputs", "0"]]};
 
 var flow = document.getElementById('flow');
 DATA.nodes.forEach(function(n, i){
