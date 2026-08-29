@@ -6,6 +6,10 @@
 
 ![running in my own environment](https://img.shields.io/badge/status-running%20in%20my%20own%20environment-2F6B52?style=flat-square) ![availability](https://img.shields.io/badge/availability-ready%20to%20deploy-5B6472?style=flat-square) ![sector](https://img.shields.io/badge/sector-Healthcare-12151B?style=flat-square) ![built with](https://img.shields.io/badge/built%20with-FastAPI-12151B?style=flat-square) ![Pipeline stages](https://img.shields.io/badge/Pipeline%20stages-16-5B6472?style=flat-square) [![honesty check](https://github.com/mdsadrhoman123-stack/medical-document-automation/actions/workflows/honesty-check.yml/badge.svg)](https://github.com/mdsadrhoman123-stack/medical-document-automation/actions/workflows/honesty-check.yml)
 
+<img src="assets/demo.gif" alt="Medical Document Automation: the flow on a good run, then the same flow with Break it pressed — every failure path lit in red" width="100%">
+
+**The system in five seconds, then the same system failing on purpose.** The second half is the half most portfolios leave out. That is a recording of [`docs/index.html`](docs/index.html) in this repository — one file, no build step, no network — with the **Break it** button actually pressed, not illustrated.
+
 > [!NOTE]
 > **What this is.** A production-grade system built to a brief that businesses in this sector post publicly, in their own words — the problem exactly as they stated it, not one invented to demonstrate something. It was engineered the way anything a business actually depends on has to be: the failure paths designed before the features, every one of them logged and alerted rather than left to chance. It runs on my own infrastructure. It is ready to deploy for any business with this problem, and it has not been sold or deployed into a customer's business yet.
 
@@ -248,8 +252,9 @@ medical-document-automation/
 │   ├── pipeline-lr.mmd ............. the client-level flow, left to right
 │   └── pipeline-tb.mmd ............. the same flow, top to bottom
 │
-├── assets/ ......................... SVG only — nothing loaded from a CDN
+├── assets/ ......................... local files only — nothing from a CDN
 │   ├── banner.svg .................. the header on this page
+│   ├── demo.gif .................... the recording at the top of this page
 │   └── cta.svg ..................... the closing card
 │
 ├── workflows/ ...................... empty on purpose — see below
