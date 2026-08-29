@@ -23,7 +23,7 @@
 
 ### On this page
 
-[The problem](#the-problem) · [What changed](#what-changed) · [How it works](#how-it-works) · [When it breaks](#when-it-breaks) · [The stack](#the-stack) · [Limitations](#honest-limitations) · [What is here](#what-is-in-this-repository) · [Read deeper](#read-deeper)
+[The problem](#the-problem) · [What changed](#what-changed) · [How it works](#how-it-works) · [The shape of it](#the-shape-of-the-system) · [When it breaks](#when-it-breaks) · [Why this way](#why-it-is-built-this-way) · [Limitations](#honest-limitations) · [What is here](#what-is-in-this-repository) · [Read deeper](#read-deeper)
 
 ---
 
@@ -114,6 +114,53 @@ Red appears in exactly one role across every repo in this portfolio: where failu
 
 > **Walk it interactively** — [`docs/index.html`](docs/index.html) is a single self-contained page. Download it, open it in any browser, and press **Break it** to watch the failure path light up. Nothing to install, no network calls.
 
+## The shape of the system
+
+Parts and the role each one plays. Not the wiring — no execution order, no prompt text, no thresholds. That is a deliberate line, and the last branch of the tree names exactly what sits on the other side of it.
+
+```text
+Medical Document Automation — the running system
+│
+├── Judgement ....................... where a decision or a piece of writing is made
+│   └── Claude via AWS Bedrock ...... Document structuring inside the client's AWS account
+│
+├── Documents ....................... files becoming data, and data becoming files
+│   ├── Textract .................... Extraction from scans
+│   ├── pdfplumber .................. Extraction from text-layer PDFs
+│   └── python-docx ................. Generates the structured output document
+│
+├── Memory .......................... what is remembered, and for how long
+│   ├── PostgreSQL on RDS ........... Managed, backed-up record store
+│   └── S3 .......................... File storage
+│
+├── Ground .......................... what the whole thing runs on
+│   ├── FastAPI ..................... Service layer for the pipeline
+│   └── Celery / Redis .............. Async processing that survives a restart
+│
+├── Failure design .................. 6 paths, designed before the features
+│   ├── detected by ................. an error output, a timer, or a failed connection
+│   ├── handled by .................. falling back, holding, or halting — never guessing
+│   └── announced to ................ a named person, with the reason attached
+│
+└── Not in this repository .......... the part that would let you skip the thinking
+    ├── the internal flow ........... which part runs after which, and on what condition
+    ├── the prompts ................. wording, guardrails, the shape of the output
+    ├── the thresholds .............. what counts as urgent, late, at capacity, a match
+    └── the credentials ............. never committed, in any form, at any point
+```
+
+Read it as a set of decisions rather than a parts list. Every part is there because a specific failure or a specific constraint put it there, and the two sections below are the same story told twice: **When it breaks** is what each part is defending against, and **Honest limitations** is what it costs to have chosen that part and not another.
+
+### Counted, not estimated
+
+| | |
+| :--- | :--- |
+| Pipeline stages | **16** |
+| Mandatory sign-off gates | **1** |
+| Unreviewed patient outputs | **0** |
+
+<sub>These are counts from the built system — nodes, stages, versions, gates. No efficiency percentages are published here without a stated measurement method.</sub>
+
 ## When it breaks
 
 Most automation portfolios show you the happy path. The happy path is the easy half. This is the half that decides whether a system survives contact with a real business.
@@ -129,28 +176,44 @@ Most automation portfolios show you the happy path. The happy path is the easy h
 
 The default on an unhandled condition is to **stop and tell someone** — never to continue on a guess. A silent success is the failure mode that costs the most, because nobody goes looking for it.
 
-## The stack
+## Why it is built this way
 
-| Component | Why this one |
-| :--- | :--- |
-| **FastAPI** | Service layer for the pipeline |
-| **Claude via AWS Bedrock** | Document structuring inside the client's AWS account |
-| **Textract** | Extraction from scans |
-| **pdfplumber** | Extraction from text-layer PDFs |
-| **python-docx** | Generates the structured output document |
-| **PostgreSQL on RDS** | Managed, backed-up record store |
-| **Celery / Redis** | Async processing that survives a restart |
-| **S3** | File storage |
+Three decisions, each with the option that was turned down and the price of turning it down. A choice with no cost attached to it was not a choice — it was a default, and defaults are not worth reading about.
 
-### Counted, not estimated
+<details open>
+<summary><b>Why sign-off is mandatory rather than conditional on confidence</b></summary>
 
-| | |
-| :--- | :--- |
-| Pipeline stages | **16** |
-| Mandatory sign-off gates | **1** |
-| Unreviewed patient outputs | **0** |
+**What it does.** Every output waits for a provider signature, no matter how confident the pipeline was about it.
 
-<sub>These are counts from the built system — nodes, stages, versions, gates. No efficiency percentages are published here without a stated measurement method.</sub>
+**What was turned down.** Releasing automatically above a confidence score. That is where nearly all the throughput is — and a confidence gate only catches the errors it can see, and the dangerous ones in a clinical document are the confident ones.
+
+**What that costs.** Throughput is bounded by clinician review time. In a medical setting that is the correct trade, and it means the system cannot be sold on speed.
+
+</details>
+
+<details>
+<summary><b>Why there are two extractors instead of one</b></summary>
+
+**What it does.** Text-layer PDFs go through pdfplumber; scans go to Textract. The document decides which.
+
+**What was turned down.** OCR for everything. One path to maintain and one failure mode — and it re-recognises text that was already perfect, inventing errors in documents that had none.
+
+**What that costs.** A routing decision before extraction, and two failure modes to design for rather than one.
+
+</details>
+
+<details>
+<summary><b>Why the AI call runs inside the client's own AWS account</b></summary>
+
+**What it does.** Document structuring goes through Bedrock in the client's account, so the documents never leave their boundary.
+
+**What was turned down.** Calling the provider API directly. Simpler credentials and one less service to configure — and patient documents then cross into infrastructure the clinic has no agreement with.
+
+**What that costs.** Tied to what Bedrock offers in that region. Reference handling is also specific to this clinic's protocols, so another practice needs its own configuration rather than a copy of this one.
+
+</details>
+
+Every cost above also appears in **Honest limitations** below. It is there twice on purpose: once as the reasoning, once as the consequence, so neither can be quietly dropped from the other.
 
 ## Honest limitations
 
@@ -162,36 +225,40 @@ Every design decision costs something. These are the trade-offs in this build, s
 
 ## What is in this repository
 
+Every file, and the question it answers. Same layout in all eleven repositories in this portfolio, so the second one you open needs no orientation at all.
+
 ```text
 medical-document-automation/
-├── README.md                      ← you are here
-├── SECURITY.md                    # how to report something that should not be public
-├── NOTICE.md                      # what is withheld, and why
-├── LICENSE                        # covers the documentation, not a software grant
+├── README.md ....................... ← you are here
+├── SECURITY.md ..................... how to report something that should not be public
+├── NOTICE.md ....................... what is withheld, and why
+├── LICENSE ......................... covers the documentation, not a software grant
 │
-├── docs/
-│   ├── index.html                 # the interactive demo — one file, opens with no network
-│   ├── 01-problem.md              # the situation before, in full
-│   ├── 02-journey.md              # step by step, from their side
-│   ├── 03-architecture.md         # the diagrams and the reasoning
-│   ├── 04-failure-handling.md     # every failure path, and where it lands
-│   ├── 05-stack.md                # what was chosen, and what was rejected
-│   ├── 06-results.md              # what is measured, and what is not
-│   └── 07-limitations.md          # the trade-offs, in detail
+├── docs/ ........................... the long form — read in order or not at all
+│   ├── index.html .................. the interactive demo, one file, no network
+│   ├── 01-problem.md ............... the situation before, in full
+│   ├── 02-journey.md ............... step by step, from their side
+│   ├── 03-architecture.md .......... the diagrams, and why they are shaped that way
+│   ├── 04-failure-handling.md ...... every failure path, and where it lands
+│   ├── 05-stack.md ................. each choice, the option turned down, the cost
+│   ├── 06-results.md ............... what is measured, and what is deliberately not
+│   └── 07-limitations.md ........... the trade-offs, in detail
 │
-├── diagrams/
-│   ├── pipeline-lr.mmd            # the client-level flow, left to right
-│   └── pipeline-tb.mmd            # the same flow, top to bottom
+├── diagrams/ ....................... source, so the flow can be re-rendered
+│   ├── pipeline-lr.mmd ............. the client-level flow, left to right
+│   └── pipeline-tb.mmd ............. the same flow, top to bottom
 │
-├── assets/                        # banner and closing card, SVG, no CDN
+├── assets/ ......................... SVG only — nothing loaded from a CDN
+│   ├── banner.svg .................. the header on this page
+│   └── cta.svg ..................... the closing card
 │
-├── workflows/
-│   └── README.md                  # empty on purpose — see below
+├── workflows/ ...................... empty on purpose — see below
+│   └── README.md ................... why it is empty, in writing
 │
-└── .github/
-    ├── honesty-check.py           # the claim linter behind the badge
+└── .github/ ........................ the badge at the top of this page
+    ├── honesty-check.py ............ the claim linter it runs
     └── workflows/
-        └── honesty-check.yml      # runs it on every push
+        └── honesty-check.yml ....... runs it on every push
 ```
 
 There is no `src/` in that tree, and no `workflows/*.json`. That is not an omission — it is the design, and the next section says exactly what is being withheld and why.

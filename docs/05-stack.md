@@ -15,11 +15,35 @@ Each choice, and the reason for it.
 | **Celery / Redis** | Async processing that survives a restart |
 | **S3** | File storage |
 
-## What was deliberately not used
+## The decisions behind that table
 
-- **A hosted automation SaaS.** Client data would transit a third party, and the failure handling would be limited to what that vendor exposes.
-- **A bespoke application where automation was enough.** The cheapest system to maintain is the one with the least custom code in it.
-- **Anything that could not be redeployed by someone else.** A system only one person can operate is a liability for the client.
+### Why sign-off is mandatory rather than conditional on confidence
+
+**What it does.** Every output waits for a provider signature, no matter how confident the pipeline was about it.
+
+**What was turned down.** Releasing automatically above a confidence score. That is where nearly all the throughput is — and a confidence gate only catches the errors it can see, and the dangerous ones in a clinical document are the confident ones.
+
+**What that costs.** Throughput is bounded by clinician review time. In a medical setting that is the correct trade, and it means the system cannot be sold on speed.
+
+### Why there are two extractors instead of one
+
+**What it does.** Text-layer PDFs go through pdfplumber; scans go to Textract. The document decides which.
+
+**What was turned down.** OCR for everything. One path to maintain and one failure mode — and it re-recognises text that was already perfect, inventing errors in documents that had none.
+
+**What that costs.** A routing decision before extraction, and two failure modes to design for rather than one.
+
+### Why the AI call runs inside the client's own AWS account
+
+**What it does.** Document structuring goes through Bedrock in the client's account, so the documents never leave their boundary.
+
+**What was turned down.** Calling the provider API directly. Simpler credentials and one less service to configure — and patient documents then cross into infrastructure the clinic has no agreement with.
+
+**What that costs.** Tied to what Bedrock offers in that region. Reference handling is also specific to this clinic's protocols, so another practice needs its own configuration rather than a copy of this one.
+
+## The rule that applies to all of them
+
+**Nothing that only one person can operate.** A system that depends on the engineer who built it is a liability for the client, however well it runs on the day it is handed over. Every choice above had to survive that test before the technical merits mattered at all.
 
 ---
 
